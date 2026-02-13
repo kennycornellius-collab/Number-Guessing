@@ -17,7 +17,7 @@ public class Player {
     public void clearCount() {
         guessCount = 0;
     }
-    public int enterGuess() {
+    public int enterGuess(int top, int bottom) {
         return 0;
     }
 }
