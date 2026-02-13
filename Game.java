@@ -1,76 +1,74 @@
 import java.util.Scanner;
-public class Game{
-    int mode;
-    protected int bottom;
-    protected int top;
+
+public class Game {
     Scanner scannerOut = new Scanner(System.in);
-    public Game(){
+    Player p1;
+    Player p2;
+    int p1Bottom, p1Top;
+    int p2Bottom, p2Top;
+
+    public Game() {
+        p1 = new HumanPlayer("P1", scannerOut);
+        p2 = new HumanPlayer("P2", scannerOut);
     }
-    public void round(){
+
+    public void round() {
         int i = 1;
-        int P1Count = 0;
-        int P2Count = 0;
         while (true) {
-            System.out.println("Starting round:"+i);
-            System.out.println("P1 Enter your guess:");
-            int P1Guess = scannerOut.nextInt();
-            System.out.println("P2 Enter your guess:");
-            int P2Guess = scannerOut.nextInt();
-            System.out.println("=======================================");  
-            System.out.println("P1 guess: "+P1Guess);
-            System.out.println("P2 guess: "+P2Guess);
-            System.out.println("P1 is the number P2 guess correct? (y/n)");
+            System.out.println("Starting round: " + i);
+            int P1Guess = p1.enterGuess();
+            int P2Guess = p2.enterGuess();
+            System.out.println("=======================================");
+            System.out.println("P1 guess: " + P1Guess);
+            System.out.println("P2 guess: " + P2Guess);
+
+            System.out.println("P1 - is P2's guess correct? (y/n)");
             scannerOut.nextLine();
             String correction = scannerOut.nextLine();
-            if (correction.equals("y")||correction.equals("Y")){
-                P1Count++;
-                System.out.println("P1 Won with "+P1Count+" amount of guess");
+            if (correction.equalsIgnoreCase("y")) {
+                p2.increaseGuess();
+                System.out.println("P2 won with " + p2.getGuessCount() + " guesses!");
                 break;
+            } else {
+                p2.increaseGuess();
             }
-            else if(correction.equals("n")||correction.equals("N")){
-                P1Count++;
-            }
-            System.out.println("P2 is the number P1 guess correct? (y/n)");
+
+            System.out.println("P2 - is P1's guess correct? (y/n)");
             correction = scannerOut.nextLine();
-            if (correction.equals("y")||correction.equals("Y")){
-                P2Count++;
-                System.out.println("P2 Won with "+P2Count+" amount of guess");
+            if (correction.equalsIgnoreCase("y")) {
+                p1.increaseGuess();
+                System.out.println("P1 won with " + p1.getGuessCount() + " guesses!");
                 break;
+            } else {
+                p1.increaseGuess();
             }
-            else if(correction.equals("n")||correction.equals("N")){
-                P2Count++;
-            }
+
             i++;
         }
     }
-    public void range(){
-        System.out.println("Enter the range of the number you want the other player to guess");
+    public void range() {
+        System.out.println("P1 set your range:");
         System.out.println("Highest:");
-        top = scannerOut.nextInt();
+        p1Top = scannerOut.nextInt();
         System.out.println("Lowest:");
-        bottom = scannerOut.nextInt();
+        p1Bottom = scannerOut.nextInt();
+
+        System.out.println("P2 set your range:");
+        System.out.println("Highest:");
+        p2Top = scannerOut.nextInt();
+        System.out.println("Lowest:");
+        p2Bottom = scannerOut.nextInt();
     }
-    public void printRange(){
-        System.out.println("Highest: "+top);
-        System.out.println("Lowest: "+bottom);
-    }
-    public static void main(String[] args){
-        Scanner scanner = new Scanner(System.in);
+    public static void main(String[] args) {
+        Game game = new Game();
         System.out.println("Number Guessing Game");
         System.out.println("Enter the mode you want:");
-        System.out.println("Human Vs Human(1)");
-        System.out.println("Ai Vs Ai(2)");
-        int choice = scanner.nextInt();
-        
+        System.out.println("Human Vs Human (1)");
+        System.out.println("AI Vs AI (2)");
+        int choice = game.scannerOut.nextInt();
         if (choice == 1) {
             System.out.println("Mode: Human Vs Human");
-            Game game = new Game();
-            Game p1 = new Game();
-            Game p2 = new Game();
-            p1.range();
-            p2.range();
-            p1.printRange();
-            p2.printRange();
+            game.range();
             game.round();
         }
     }
