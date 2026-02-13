@@ -16,8 +16,8 @@ public class Game {
         int i = 1;
         while (true) {
             System.out.println("Starting round: " + i);
-            int P1Guess = p1.enterGuess();
-            int P2Guess = p2.enterGuess();
+            int P1Guess = p1.enterGuess(p1Top, p1Bottom);
+            int P2Guess = p2.enterGuess(p2Top, p2Bottom);
             System.out.println("=======================================");
             System.out.println("P1 guess: " + P1Guess);
             System.out.println("P2 guess: " + P2Guess);

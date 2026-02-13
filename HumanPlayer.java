@@ -5,7 +5,7 @@ public class HumanPlayer extends Player {
         super(name);
         this.scanner = scanner;
     }
-    public int enterGuess() {
+    public int enterGuess(int top, int bottom) {
         System.out.println("Enter your guess:");
         return scanner.nextInt();
     }
