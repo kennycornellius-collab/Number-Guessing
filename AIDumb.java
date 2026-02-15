@@ -1,9 +1,6 @@
 import java.util.Random;
-import java.util.ArrayList;
-import java.util.List;
 public class AIDumb extends Player{
     Random rand = new Random();
-    List<Integer> checkednum = new ArrayList<>();
     public AIDumb(String name){
         super(name);
     }
@@ -15,8 +12,5 @@ public class AIDumb extends Player{
                 return guess;
             }
         }
-    }
-    public void clearGuess(){
-        checkednum.clear();
     }
 }

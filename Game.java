@@ -7,9 +7,16 @@ public class Game {
     int p1Bottom, p1Top;
     int p2Bottom, p2Top;
 
-    public Game() {
-        p1 = new HumanPlayer("P1", scannerOut);
-        p2 = new HumanPlayer("P2", scannerOut);
+    public Game(int mode) {
+        if (mode == 1){
+            p1 = new HumanPlayer("P1", scannerOut);
+            p2 = new HumanPlayer("P2", scannerOut);
+        }
+        else if (mode == 2){
+            p1 = new HumanPlayer("P1", scannerOut);
+            p2 = new AIDumb("AI1");
+        }
+        
     }
 
     public void round() {
@@ -59,17 +66,51 @@ public class Game {
         System.out.println("Lowest:");
         p2Bottom = scannerOut.nextInt();
     }
+    public void AIvsHuman(){
+        System.out.println("P1 set your range:");
+        System.out.println("Highest:");
+        p1Top = scannerOut.nextInt();
+        System.out.println("Lowest:");
+        p1Bottom = scannerOut.nextInt();
+    }
+    public void AIRound(){
+        int i = 1;
+        while (true) {
+            System.out.println("Starting round: " + i);
+            int P2Guess = p2.enterGuess(p1Top, p1Bottom);
+            System.out.println("=======================================");
+            System.out.println("P2 guess: " + P2Guess);
+            System.out.println("P1 - is P2's guess correct? (y/n)");
+            String correction = scannerOut.next();
+            if (correction.equalsIgnoreCase("y")) {
+                p2.increaseGuess();
+                System.out.println("P2 won with " + p2.getGuessCount() + " guesses!");
+                p2.clearGuess();
+                break;
+            } 
+            else {
+                p2.increaseGuess();
+            }
+            i++;
+        }
+    }
     public static void main(String[] args) {
-        Game game = new Game();
+        Game game = new Game(0);
         System.out.println("Number Guessing Game");
         System.out.println("Enter the mode you want:");
         System.out.println("Human Vs Human (1)");
-        System.out.println("AI Vs AI (2)");
-        int choice = game.scannerOut.nextInt();
-        if (choice == 1) {
-            System.out.println("Mode: Human Vs Human");
+        System.out.println("Human Vs AI Dumb (2)");
+        int mode = game.scannerOut.nextInt();
+        game = new Game(mode);
+        if (mode == 1){
             game.range();
             game.round();
         }
+        else if (mode == 2){
+            game.AIvsHuman();
+            game.AIRound();
+        }
+        
+        
     }
 }
