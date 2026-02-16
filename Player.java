@@ -26,4 +26,8 @@ public class Player {
     public void clearGuess(){
         checkednum.clear();
     }
+    public void tooLow(){
+    }
+    public void tooHigh(){
+    }
 }
