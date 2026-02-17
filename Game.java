@@ -6,7 +6,7 @@ public class Game {
     Player p2;
     int p1Bottom, p1Top;
     int p2Bottom, p2Top;
-
+    int AInumberToGuess;
     public Game(int mode) {
         if (mode == 1){
             p1 = new HumanPlayer("P1", scannerOut);
@@ -76,6 +76,7 @@ public class Game {
         p1Top = scannerOut.nextInt();
         System.out.println("Lowest:");
         p1Bottom = scannerOut.nextInt();
+        AInumberToGuess = p2.AInumber(p1Top, p1Bottom);
     }
     public void AIRound(){
         int i = 1;
@@ -94,6 +95,16 @@ public class Game {
             } 
             else {
                 p2.increaseGuess();
+            }
+            System.out.println("P1 enter your guess: ");
+            int P1Guess = scannerOut.nextInt();
+            if (P1Guess == AInumberToGuess){
+                p1.increaseGuess();
+                System.out.println("P1 won with " + p1.getGuessCount() + " guesses!");
+                break;
+            }
+            else{
+                p1.increaseGuess();
             }
             i++;
         }
@@ -123,6 +134,16 @@ public class Game {
                 else if (choose.equalsIgnoreCase("L")){
                     p2.tooHigh();
                 }
+            }
+            System.out.println("P1 enter your guess: ");
+            int P1Guess = scannerOut.nextInt();
+            if (P1Guess == AInumberToGuess){
+                p1.increaseGuess();
+                System.out.println("P1 won with " + p1.getGuessCount() + " guesses!");
+                break;
+            }
+            else{
+                p1.increaseGuess();
             }
             i++;
         }

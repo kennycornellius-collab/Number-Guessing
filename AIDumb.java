@@ -13,4 +13,7 @@ public class AIDumb extends Player{
             }
         }
     }
+    public int AInumber(int AItop, int AIbottom){
+        return rand.nextInt(AItop-AIbottom+1)+AIbottom;
+    }
 }

@@ -1,8 +1,10 @@
+import java.util.Random;
 public class AISmart extends Player{
     protected int high;
     protected int low;
     protected int prevGuess;
     protected boolean firstTime = true;
+    Random rand = new Random();
     public AISmart(String name){
         super(name);
     }
@@ -20,5 +22,8 @@ public class AISmart extends Player{
     }
     public void tooLow(){
         low = prevGuess+1;
+    }
+    public int AInumber(int AItop, int AIbottom){
+        return rand.nextInt(AItop-AIbottom+1)+AIbottom;
     }
 }

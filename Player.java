@@ -30,4 +30,7 @@ public class Player {
     }
     public void tooHigh(){
     }
+    public int AInumber(int AItop, int AIbottom){
+        return 0;
+    }
 }
