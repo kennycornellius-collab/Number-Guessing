@@ -33,4 +33,5 @@ public class Player {
     public int AInumber(int AItop, int AIbottom){
         return 0;
     }
+    public void resetHighLow(){}
 }

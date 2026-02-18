@@ -4,6 +4,8 @@ public class Game {
     Scanner scannerOut = new Scanner(System.in);
     Player p1;
     Player p2;
+    Stats stats1;
+    Stats stats2;
     int p1Bottom, p1Top;
     int p2Bottom, p2Top;
     int AInumberToGuess;
@@ -20,6 +22,9 @@ public class Game {
             p1 = new HumanPlayer("P1", scannerOut);
             p2 = new AISmart("AI1");
         }
+
+        stats1 = new Stats("stats1");
+        stats2 = new Stats("stats2");
         
     }
 
@@ -39,6 +44,9 @@ public class Game {
             if (correction.equalsIgnoreCase("y")) {
                 p2.increaseGuess();
                 System.out.println("P2 won with " + p2.getGuessCount() + " guesses!");
+                stats2.winIncrease();
+                stats2.highestGuessChange(p2.getGuessCount());
+                stats2.lowestGuessChange(p2.getGuessCount());
                 break;
             } else {
                 p2.increaseGuess();
@@ -49,6 +57,9 @@ public class Game {
             if (correction.equalsIgnoreCase("y")) {
                 p1.increaseGuess();
                 System.out.println("P1 won with " + p1.getGuessCount() + " guesses!");
+                stats1.winIncrease();
+                stats1.highestGuessChange(p1.getGuessCount());
+                stats1.lowestGuessChange(p1.getGuessCount());
                 break;
             } else {
                 p1.increaseGuess();
@@ -91,6 +102,9 @@ public class Game {
                 p2.increaseGuess();
                 System.out.println("P2 won with " + p2.getGuessCount() + " guesses!");
                 p2.clearGuess();
+                stats2.winIncrease();
+                stats2.highestGuessChange(p2.getGuessCount());
+                stats2.lowestGuessChange(p2.getGuessCount());
                 break;
             } 
             else {
@@ -101,6 +115,9 @@ public class Game {
             if (P1Guess == AInumberToGuess){
                 p1.increaseGuess();
                 System.out.println("P1 won with " + p1.getGuessCount() + " guesses!");
+                stats1.winIncrease();
+                stats1.highestGuessChange(p1.getGuessCount());
+                stats1.lowestGuessChange(p1.getGuessCount());
                 break;
             }
             else{
@@ -109,7 +126,15 @@ public class Game {
             i++;
         }
     }
+    public void statsShow(){
+        stats1.showStats();
+        System.out.println("==============================");
+        stats2.showStats();
+    }
     public void AIRoundSmart(){
+        p2.clearGuess();
+        p2.resetHighLow();
+        p2.clearCount();
         int i = 1;
         while (true) {
             System.out.println("Starting round: " + i);
@@ -122,6 +147,9 @@ public class Game {
                 p2.increaseGuess();
                 System.out.println("P2 won with " + p2.getGuessCount() + " guesses!");
                 p2.clearGuess();
+                stats2.winIncrease();
+                stats2.highestGuessChange(p2.getGuessCount());
+                stats2.lowestGuessChange(p2.getGuessCount());
                 break;
             } 
             else {
@@ -140,6 +168,9 @@ public class Game {
             if (P1Guess == AInumberToGuess){
                 p1.increaseGuess();
                 System.out.println("P1 won with " + p1.getGuessCount() + " guesses!");
+                stats1.winIncrease();
+                stats1.highestGuessChange(p1.getGuessCount());
+                stats1.lowestGuessChange(p1.getGuessCount());
                 break;
             }
             else{
@@ -148,28 +179,46 @@ public class Game {
             i++;
         }
     }
+    
     public static void main(String[] args) {
         Game game = new Game(0);
-        System.out.println("Number Guessing Game");
-        System.out.println("Enter the mode you want:");
-        System.out.println("Human Vs Human (1)");
-        System.out.println("Human Vs AI Dumb (2)");
-        System.out.println("Human Vs AI Smart (3)");
-        int mode = game.scannerOut.nextInt();
-        game = new Game(mode);
-        if (mode == 1){
-            game.range();
-            game.round();
+        while (true){
+            System.out.println("Number Guessing Game");
+            System.out.println("Enter the mode you want:");
+            System.out.println("Human Vs Human (1)");
+            System.out.println("Human Vs AI Dumb (2)");
+            System.out.println("Human Vs AI Smart (3)");
+            System.out.println("Show Stats (4)");
+            System.out.println("Exit (5)");
+            int mode = game.scannerOut.nextInt();
+            if (mode == 4){
+                game.statsShow();
+                continue;
+            }
+            else if (mode == 5){
+                break;
+            }
+            game = new Game(mode);
+            System.out.println("Enter the amount of rounds you want to play:");
+            int roundAmount = game.scannerOut.nextInt();
+            if (mode == 1){
+                for (int i = 0;i < roundAmount;i++ ){
+                    game.range();
+                    game.round();
+                }
+            }
+            else if (mode == 2){
+                for (int i = 0;i < roundAmount;i++ ){
+                    game.AIvsHuman();
+                    game.AIRound();
+                }  
+            }
+            else if (mode == 3){
+                for (int i = 0;i < roundAmount;i++ ){
+                    game.AIvsHuman();
+                    game.AIRoundSmart();
+                }
+            }
         }
-        else if (mode == 2){
-            game.AIvsHuman();
-            game.AIRound();
-        }
-        else if (mode == 3){
-            game.AIvsHuman();
-            game.AIRoundSmart();
-        }
-        
-        
     }
 }

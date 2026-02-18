@@ -26,4 +26,7 @@ public class AISmart extends Player{
     public int AInumber(int AItop, int AIbottom){
         return rand.nextInt(AItop-AIbottom+1)+AIbottom;
     }
+    public void resetHighLow(){
+        firstTime = true;
+    }
 }
