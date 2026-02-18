@@ -43,26 +43,32 @@ public class Game {
             String correction = scannerOut.nextLine();
             if (correction.equalsIgnoreCase("y")) {
                 p2.increaseGuess();
+                stats2.totalGuessIncrease();
                 System.out.println("P2 won with " + p2.getGuessCount() + " guesses!");
                 stats2.winIncrease();
+                stats1.loseIncrease();
                 stats2.highestGuessChange(p2.getGuessCount());
                 stats2.lowestGuessChange(p2.getGuessCount());
                 break;
             } else {
                 p2.increaseGuess();
+                stats2.totalGuessIncrease();
             }
 
             System.out.println("P2 - is P1's guess correct? (y/n)");
             correction = scannerOut.nextLine();
             if (correction.equalsIgnoreCase("y")) {
                 p1.increaseGuess();
+                stats1.totalGuessIncrease();
                 System.out.println("P1 won with " + p1.getGuessCount() + " guesses!");
                 stats1.winIncrease();
+                stats2.loseIncrease();
                 stats1.highestGuessChange(p1.getGuessCount());
                 stats1.lowestGuessChange(p1.getGuessCount());
                 break;
             } else {
                 p1.increaseGuess();
+                stats1.totalGuessIncrease();
             }
 
             i++;
@@ -100,28 +106,34 @@ public class Game {
             String correction = scannerOut.next();
             if (correction.equalsIgnoreCase("y")) {
                 p2.increaseGuess();
+                stats2.totalGuessIncrease();
                 System.out.println("P2 won with " + p2.getGuessCount() + " guesses!");
                 p2.clearGuess();
                 stats2.winIncrease();
+                stats1.loseIncrease();
                 stats2.highestGuessChange(p2.getGuessCount());
                 stats2.lowestGuessChange(p2.getGuessCount());
                 break;
             } 
             else {
                 p2.increaseGuess();
+                stats2.totalGuessIncrease();
             }
             System.out.println("P1 enter your guess: ");
             int P1Guess = scannerOut.nextInt();
             if (P1Guess == AInumberToGuess){
                 p1.increaseGuess();
+                stats1.totalGuessIncrease();
                 System.out.println("P1 won with " + p1.getGuessCount() + " guesses!");
                 stats1.winIncrease();
+                stats2.loseIncrease();
                 stats1.highestGuessChange(p1.getGuessCount());
                 stats1.lowestGuessChange(p1.getGuessCount());
                 break;
             }
             else{
                 p1.increaseGuess();
+                stats1.totalGuessIncrease();
             }
             i++;
         }
@@ -137,6 +149,7 @@ public class Game {
         p2.clearCount();
         int i = 1;
         while (true) {
+            
             System.out.println("Starting round: " + i);
             int P2Guess = p2.enterGuess(p1Top, p1Bottom);
             System.out.println("=======================================");
@@ -145,15 +158,18 @@ public class Game {
             String correction = scannerOut.next();
             if (correction.equalsIgnoreCase("y")) {
                 p2.increaseGuess();
+                stats2.totalGuessIncrease();
                 System.out.println("P2 won with " + p2.getGuessCount() + " guesses!");
                 p2.clearGuess();
                 stats2.winIncrease();
+                stats1.loseIncrease();
                 stats2.highestGuessChange(p2.getGuessCount());
                 stats2.lowestGuessChange(p2.getGuessCount());
                 break;
             } 
             else {
                 p2.increaseGuess();
+                stats2.totalGuessIncrease();
                 System.out.println("Is your number higher(H) or lower(L)?");
                 String choose = scannerOut.next();
                 if (choose.equalsIgnoreCase("H")){
@@ -167,19 +183,25 @@ public class Game {
             int P1Guess = scannerOut.nextInt();
             if (P1Guess == AInumberToGuess){
                 p1.increaseGuess();
+                stats1.totalGuessIncrease();
                 System.out.println("P1 won with " + p1.getGuessCount() + " guesses!");
                 stats1.winIncrease();
+                stats2.loseIncrease();
                 stats1.highestGuessChange(p1.getGuessCount());
                 stats1.lowestGuessChange(p1.getGuessCount());
                 break;
             }
             else{
                 p1.increaseGuess();
+                stats1.totalGuessIncrease();
             }
             i++;
         }
     }
-    
+    public void roundAmounts(int roundCount){
+        stats1.totalRoundsIncrease(roundCount);
+        stats2.totalRoundsIncrease(roundCount);
+    }
     public static void main(String[] args) {
         Game game = new Game(0);
         while (true){
@@ -201,8 +223,10 @@ public class Game {
             game = new Game(mode);
             System.out.println("Enter the amount of rounds you want to play:");
             int roundAmount = game.scannerOut.nextInt();
+            game.roundAmounts(roundAmount);
             if (mode == 1){
                 for (int i = 0;i < roundAmount;i++ ){
+                    
                     game.range();
                     game.round();
                 }

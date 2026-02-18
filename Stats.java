@@ -2,15 +2,22 @@ public class Stats {
     protected String name;
     protected int win;
     protected int lose;
-    protected int highestGuess = -1000;
-    protected int lowestGuess = 10000;
-    protected int averageGuess;
-    
+    protected int highestGuess = 0;
+    protected int lowestGuess = Integer.MAX_VALUE;
+    protected double averageGuess;
+    protected int totalRounds;
+    protected int totalGuess;
     public Stats(String name){
         this.name = name;
     }
     public int winIncrease(){
         return win++;
+    }
+    public void totalGuessIncrease(){
+        totalGuess++;
+    }
+    public void totalRoundsIncrease(int roundsIncrease){
+        totalRounds = roundsIncrease;
     }
     public int loseIncrease(){
         return lose++;
@@ -25,8 +32,8 @@ public class Stats {
             lowestGuess = guessCount;
         }
     }
-    public int averageGuessCalc(){
-        return (lowestGuess+highestGuess)/2;
+    public double averageGuessCalc(){
+        return ((totalGuess)*1.0)/totalRounds;
     }
     public void showStats(){
         averageGuess = averageGuessCalc();
@@ -36,4 +43,5 @@ public class Stats {
         System.out.println("Win count for "+name+": "+win);
         System.out.println("Lose count for "+name+": "+lose);
     }
+    
 }
