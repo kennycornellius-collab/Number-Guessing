@@ -33,7 +33,8 @@ public class Stats {
         }
     }
     public double averageGuessCalc(){
-        return ((totalGuess)*1.0)/totalRounds;
+        if (win == 0){return 0;}
+        return ((totalGuess)*1.0)/win;
     }
     public void showStats(){
         averageGuess = averageGuessCalc();

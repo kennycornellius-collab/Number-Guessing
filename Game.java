@@ -22,7 +22,10 @@ public class Game {
             p1 = new HumanPlayer("P1", scannerOut);
             p2 = new AISmart("AI1");
         }
-
+        else if (mode == 6){
+            p1 = new AIDumb("P1");
+            p2 = new AISmart("P2");
+        }
         stats1 = new Stats("stats1");
         stats2 = new Stats("stats2");
         
@@ -202,6 +205,53 @@ public class Game {
         stats1.totalRoundsIncrease(roundCount);
         stats2.totalRoundsIncrease(roundCount);
     }
+    public void Tournament(int topTournament, int bottomTournament){
+        p1.clearGuess();
+        p2.clearGuess();
+        p1.resetHighLow();
+        p2.resetHighLow();
+        p1.clearCount();
+        p2.clearCount();
+        int P1num = p1.AInumber(topTournament, bottomTournament);
+        int P2num = p2.AInumber(topTournament, bottomTournament);
+        while (true){
+            int P1Guess = p1.enterGuess(topTournament, bottomTournament);
+            int P2Guess = p2.enterGuess(topTournament, bottomTournament);
+            if (P1Guess == P2num){
+                p1.increaseGuess();
+                stats1.totalGuessIncrease();
+                stats1.winIncrease();
+                stats2.loseIncrease();
+                stats1.highestGuessChange(p1.getGuessCount());
+                stats1.lowestGuessChange(p1.getGuessCount());
+                break;
+            }
+            else{
+                p1.increaseGuess();
+                stats1.totalGuessIncrease();
+            }
+            if (P2Guess == P1num){
+                p2.increaseGuess();
+                stats2.totalGuessIncrease();
+                p2.clearGuess();
+                stats2.winIncrease();
+                stats1.loseIncrease();
+                stats2.highestGuessChange(p2.getGuessCount());
+                stats2.lowestGuessChange(p2.getGuessCount());
+                break;
+            }
+            else{
+                p2.increaseGuess();
+                stats2.totalGuessIncrease();
+                if (P2Guess < P1num){
+                    p2.tooLow();
+                }
+                else{
+                    p2.tooHigh();
+                }
+            }
+        }
+    }
     public static void main(String[] args) {
         Game game = new Game(0);
         while (true){
@@ -212,6 +262,7 @@ public class Game {
             System.out.println("Human Vs AI Smart (3)");
             System.out.println("Show Stats (4)");
             System.out.println("Exit (5)");
+            System.out.println("Tournament Mode (Compare AI) (6)");
             int mode = game.scannerOut.nextInt();
             if (mode == 4){
                 game.statsShow();
@@ -242,6 +293,18 @@ public class Game {
                     game.AIvsHuman();
                     game.AIRoundSmart();
                 }
+            }
+            else if (mode == 6){
+                System.out.println("Enter the highest number");
+                int top = game.scannerOut.nextInt();
+                System.out.println("Enter the lowest number");
+                int bottom = game.scannerOut.nextInt();
+                for (int i =0; i<roundAmount;i++){
+                    game.Tournament(top,bottom);
+                }
+                System.out.println("===========================================");
+                System.out.println("Tournament done. check stats by clicking 4.");
+                System.out.println("===========================================");
             }
         }
     }
